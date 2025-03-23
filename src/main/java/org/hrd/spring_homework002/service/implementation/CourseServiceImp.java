@@ -1,6 +1,7 @@
 package org.hrd.spring_homework002.service.implementation;
 
 import org.hrd.spring_homework002.exception.InstructorNotFoundException;
+import org.hrd.spring_homework002.exception.InvalidCourseIdException;
 import org.hrd.spring_homework002.model.Course;
 import org.hrd.spring_homework002.model.request.CourseRequest;
 import org.hrd.spring_homework002.repository.CourseRepository;
@@ -19,6 +20,7 @@ public class CourseServiceImp implements CourseService {
 
     @Override
     public Course getCourseById(Integer id) {
+        if (id <= 0) throw new InvalidCourseIdException("Course ID must be greater than 0!");
         Course course = courseRepository.findCourseById(id);
         if (course == null) throw new InstructorNotFoundException("Course with ID " + id + " not found!");
         return course;
@@ -26,6 +28,7 @@ public class CourseServiceImp implements CourseService {
 
     @Override
     public Course updateCourseById(Integer id, CourseRequest courseRequest) {
+        if (id <= 0) throw new InvalidCourseIdException("Course ID must be greater than 0!");
         Course course = courseRepository.updateCourseById(id, courseRequest);
         if (course == null) throw new InstructorNotFoundException("Course with ID " + id + " not found!");
         return course;
@@ -33,6 +36,7 @@ public class CourseServiceImp implements CourseService {
 
     @Override
     public void removeCourseById(Integer id){
+        if (id <= 0) throw new InvalidCourseIdException("Course ID must be greater than 0!");
         Boolean result = courseRepository.deleteCourseById(id);
         if (result == false) throw new InstructorNotFoundException("Course with ID " + id + " not found!");
     }

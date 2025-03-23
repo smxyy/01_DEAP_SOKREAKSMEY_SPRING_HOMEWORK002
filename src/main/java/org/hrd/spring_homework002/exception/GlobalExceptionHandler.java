@@ -48,14 +48,7 @@ public class GlobalExceptionHandler {
         Map<String, String> errors = new HashMap<>();
 
         for (MessageSourceResolvable pathError: e.getAllErrors()){
-            for (String err : pathError.getCodes()){
-                if (err.contains("Positive.id")){
-                    errors.put("PositiveId", pathError.getDefaultMessage());
-                }
-                if (err.contains("Min.id")){
-                    errors.put("MinId", pathError.getDefaultMessage());
-                }
-            }
+            errors.put(pathError.getCodes()[0], pathError.getDefaultMessage());
         }
 
         ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
@@ -65,6 +58,13 @@ public class GlobalExceptionHandler {
         problemDetail.getInstance();
         problemDetail.setProperty("timestamp", LocalDateTime.now());
         problemDetail.setProperty("errors", errors);
+        return problemDetail;
+    }
+
+    @ExceptionHandler(InvalidCourseIdException.class)
+    public ProblemDetail handleInvalidCourseIdException(InvalidCourseIdException e){
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.getMessage());
+        problemDetail.setProperty("timestamp", LocalDateTime.now());
         return problemDetail;
     }
 

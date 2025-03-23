@@ -43,7 +43,7 @@ public class InstructorController {
     }
 
     @PutMapping("/{instructor-id}")
-    public ResponseEntity<ApiResponse<Instructor>> updateInstructorInfoById(@PathVariable("instructor-id") @Positive @Min(value = 1, message = "ID needs to start from 1") Integer id, @RequestBody InstructorRequest instructorRequest){
+    public ResponseEntity<ApiResponse<Instructor>> updateInstructorInfoById(@PathVariable("instructor-id") @Positive @Min(value = 1, message = "ID needs to start from 1") Integer id, @RequestBody @Valid InstructorRequest instructorRequest){
        Instructor instructor = instructorService.updateInstructorInfoById(id, instructorRequest);
        ApiResponse<Instructor> response = ApiResponse.<Instructor>builder()
                .message("The instructor has been successfully updated.")

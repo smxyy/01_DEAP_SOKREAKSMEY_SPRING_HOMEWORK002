@@ -41,7 +41,7 @@ public class CourseController {
     }
 
     @PutMapping("/{course-id}")
-    public ResponseEntity<ApiResponse<Course>> updateCourseById(@PathVariable("course-id") @Positive @Min(value = 1, message = "Id needs to start from 1") Integer id, @RequestBody CourseRequest courseRequest){
+    public ResponseEntity<ApiResponse<Course>> updateCourseById(@PathVariable("course-id") @Positive @Min(value = 1, message = "Id needs to start from 1") Integer id, @RequestBody @Valid CourseRequest courseRequest){
         Course course = courseService.updateCourseById(id, courseRequest);
         ApiResponse<Course> response = ApiResponse.<Course>builder()
                 .message("The course has been successfully updated.")
@@ -75,7 +75,7 @@ public class CourseController {
     }
 
     @PostMapping
-    public ResponseEntity<ApiResponse<Course>> addNewCourse(@RequestBody CourseRequest courseRequest){
+    public ResponseEntity<ApiResponse<Course>> addNewCourse(@RequestBody @Valid CourseRequest courseRequest){
         Course course = courseService.addNewCourse(courseRequest);
         ApiResponse<Course> response = ApiResponse.<Course>builder()
                 .message("The course has been successfully added.")
